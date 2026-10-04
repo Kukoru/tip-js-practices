@@ -32,6 +32,20 @@
 
 ---
 
+## Запуск
+
+Все команды выполняются **из корня репозитория** `tip-js-practices`.
+
+### Запуск через Node.js
+
+```bash
+node practice-01/js/hello.js
+node practice-01/js/types.js
+node practice-01/js/progress.js
+node practice-01/js/plan.js
+node practice-01/js/debug.js
+
+
 ## Задание 1. Один файл — две среды выполнения
 
 ### Терминал VS Code (Node.js)
