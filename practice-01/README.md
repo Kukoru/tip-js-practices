@@ -44,7 +44,7 @@ node practice-01/js/types.js
 node practice-01/js/progress.js
 node practice-01/js/plan.js
 node practice-01/js/debug.js
-
+```
 
 ## Задание 1. Один файл — две среды выполнения
 
