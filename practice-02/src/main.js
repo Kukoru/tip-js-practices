@@ -92,3 +92,25 @@ result = addTask(variantCurrent, 80, "Дубликат");
 if (!result.ok) console.error("\nОшибка повторного добавления id 80:", result.error);
 console.log("Итоговые id варианта:", variantCurrent.map((t) => t.id));
 console.log("variantTasks сохранился:", variantTasks.length === 6);
+
+// ===== ДОПОЛНИТЕЛЬНОЕ ЗАДАНИЕ (Вариант А) =====
+import { searchTasks } from "./task-extra.js";
+
+console.log("\n===== ДОПОЛНИТЕЛЬНОЕ ЗАДАНИЕ: ПОИСК =====");
+
+const searchResults1 = searchTasks(demoTasks, " ФУНК ");
+console.log("Запрос ' ФУНК ' →", searchResults1.map((t) => t.id));
+
+const searchResults2 = searchTasks(demoTasks, "функции");
+console.log("Запрос 'функции' →", searchResults2.map((t) => t.id));
+
+const searchResults3 = searchTasks(demoTasks, "НЕСУЩЕСТВУЮЩИЙ ФРАГМЕНТ");
+console.log("Запрос 'НЕСУЩЕСТВУЮЩИЙ ФРАГМЕНТ' →", searchResults3.length, "задач");
+
+const searchResults4 = searchTasks(demoTasks, "   ");
+console.log("Пустой запрос →", searchResults4.length, "задач (все)");
+
+const searchResults5 = searchTasks([], "функции");
+console.log("Поиск в пустом списке →", searchResults5.length, "задач");
+
+console.log("demoTasks не изменился:", demoTasks.length === 4);

@@ -6,6 +6,7 @@ import {
   createTask, findTaskById, getPendingTasks, getTaskTitles, getTaskStats,
   addTask, setTaskCompleted, renameTask, removeTask,
 } from "./src/task-service.js";
+import { searchTasks } from "./src/task-extra.js";
 
 let passed = 0;
 let failed = 0;
@@ -372,6 +373,40 @@ check("Собственная 3. Последовательное обновле
   next = expectTasks(renameTask(next, 7, "Новое название"));
   assert.equal(findTaskById(next, 4).completed, true);
   assert.equal(findTaskById(next, 7).title, "Новое название");
+  assert.deepEqual(tasks, fixture());
+});
+
+// ===== ДОПОЛНИТЕЛЬНОЕ ЗАДАНИЕ: ПОИСК ПО НАЗВАНИЮ =====
+
+check("Д1. Обычный запрос", () => {
+  const result = searchTasks(fixture(), "функции");
+  assert.deepEqual(result.map((t) => t.id), [1]);
+});
+
+check("Д2. Разный регистр и краевые пробелы", () => {
+  assert.deepEqual(searchTasks(fixture(), " ФУНК ").map((t) => t.id), [1]);
+  assert.deepEqual(searchTasks(fixture(), "ФУНКЦИИ").map((t) => t.id), [1]);
+});
+
+check("Д3. Отсутствие совпадений", () => {
+  assert.deepEqual(searchTasks(fixture(), "несуществующий фрагмент"), []);
+});
+
+check("Д4. Пустой запрос возвращает все задачи", () => {
+  const tasks = fixture();
+  const result = searchTasks(tasks, "");
+  assert.equal(result.length, 4);
+  assert.notEqual(result, tasks);
+});
+
+check("Д5. Пустой список", () => {
+  assert.deepEqual(searchTasks([], "функции"), []);
+});
+
+check("Д6. Исходные данные не изменяются", () => {
+  const tasks = Object.freeze(fixture().map((t) => Object.freeze(t)));
+  searchTasks(tasks, "функции");
+  searchTasks(tasks, "");
   assert.deepEqual(tasks, fixture());
 });
 
