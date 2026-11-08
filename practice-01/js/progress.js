@@ -1,8 +1,8 @@
 "use strict";
 
 // ===== ВХОДНЫЕ ДАННЫЕ (ваш вариант) =====
-const totalTasks = 12;
-const completedTasks = 5;
+const totalTasks = 5;
+const completedTasks = 6;
 
 // ===== ПРОВЕРКА 1: типы и целочисленность =====
 if (typeof totalTasks !== "number" || typeof completedTasks !== "number") {
