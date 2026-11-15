@@ -61,8 +61,12 @@ function requireNode(root, selector) {
 async function waitFor(condition, message, timeout = 5000) {
   const started = performance.now();
   while (performance.now() - started < timeout) {
-    const value = condition();
-    if (value) return value;
+    try {
+      const value = condition();
+      if (value) return value;
+    } catch (e) {
+      // Игнорируем ошибку, если элемента еще нет
+    }
     await new Promise((resolve) => setTimeout(resolve, 25));
   }
   throw new Error(message);
