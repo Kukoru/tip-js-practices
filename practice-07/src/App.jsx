@@ -11,6 +11,9 @@ export default function App() {
   const [tasks, setTasks] = useState(() => initialTasks.map(task => ({ ...task })));
   const [filters, setFilters] = useState(createInitialFilters);
   const [editingId, setEditingId] = useState(null);
+  
+  // 1. ДОБАВЛЕНО: Состояние для уведомлений
+  const [notification, setNotification] = useState(null);
 
   const visibleTasks = selectTasks(tasks, filters);
   const stats = getTaskStats(tasks);
@@ -21,10 +24,14 @@ export default function App() {
       if (!tasks.some(t => t.id === editingId)) return false;
       setTasks(prev => updateTask(prev, editingId, value));
       setEditingId(null);
+      // 2. ДОБАВЛЕНО: Уведомление при редактировании
+      setNotification({ text: "Задача успешно обновлена!", type: "success" });
       return true;
     } else {
       const maxId = tasks.reduce((max, t) => Math.max(max, t.id), 0);
       setTasks(prev => addTask(prev, value, maxId + 1));
+      // 2. ДОБАВЛЕНО: Уведомление при создании
+      setNotification({ text: "Задача успешно создана!", type: "success" });
       return true;
     }
   };
@@ -33,6 +40,8 @@ export default function App() {
     if (window.confirm("Удалить задачу?")) {
       setTasks(prev => removeTask(prev, id));
       if (editingId === id) setEditingId(null);
+      // 3. ДОБАВЛЕНО: Уведомление при удалении
+      setNotification({ text: "Задача удалена.", type: "success" });
     }
   };
 
@@ -41,6 +50,14 @@ export default function App() {
       <h1>Задачи на React</h1>
       <p>ПР7: данные в памяти. Обновление страницы восстанавливает исходный набор.</p>
       
+      {/* 4. ДОБАВЛЕНО: Блок вывода уведомления */}
+      {notification && (
+        <div className={`notification ${notification.type}`} role="status">
+          {notification.text}
+          <button type="button" onClick={() => setNotification(null)}>✕</button>
+        </div>
+      )}
+
       <TaskStats stats={stats} />
       
       <TaskFilters filters={filters} categories={categories} onChange={setFilters} />
